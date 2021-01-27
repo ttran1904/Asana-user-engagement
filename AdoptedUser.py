@@ -53,30 +53,40 @@ class AdoptedUser(User):
             self.insert_data(conn, "Adopt", adopted_user)
         conn.close()
 
-
-
-
-
-
-    
 # Create a new table
 def create_table():
-    sql_create = """CREATE TABLE Adopt (
-                object_id int,
-                date_adopted varchar(40)
+    sql_create = """CREATE TABLE Adopt ( 
+                "object_id" int, 
+                "date_adopted" varchar(40)
+            );"""
+    sql_create2 = """CREATE TABLE User (
+                "index" int,
+                "object_id" int,
+                "creation_time" varchar(40),
+                "name" varchar(225),
+                "email" varchar(225),
+                "creation_source" varchar(30),
+                "last_session_creation_time" int, 
+                "opted_in_to_mailing_list" int,
+                "enabled_for_marketing_drip" int,
+                "org_id" int,
+                "invited_by_user_id" int,
+                "email_domain" varchar(30)
             );"""
     conn = sqlite3.connect(ADOPT_DB)
     cursor = conn.cursor()
     cursor.execute(sql_create)
+    cursor.execute(sql_create2)
     conn.commit()
     conn.close()
 
-# def main():
-#     conn = sqlite3.connect(ADOPT_DB)
-#     cursor = conn.cursor()
-#     for i in cursor.execute('SELECT * FROM Adopt'):
-#         print(i)
-#     conn.close()
+def main():
+    #create_table()
+    conn = sqlite3.connect(ADOPT_BACKUP_DB)
+    cursor = conn.cursor()
+    for i in cursor.execute('SELECT * FROM Adopt'):
+        print(i)
+    conn.close()
     
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
