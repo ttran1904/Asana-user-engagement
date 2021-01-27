@@ -1,0 +1,5 @@
+ENGAGEMENT_CSV = "data/takehome_user_engagement-intern.csv"
+USER_CSV = "data/takehome_users-intern.csv"
+ENGAGEMENT_DB = "data/engagement.db"
+USER_DB = "data/user.db"
+ADOPT_DB = "data/adopt.db"
