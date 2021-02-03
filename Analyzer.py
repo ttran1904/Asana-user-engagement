@@ -300,6 +300,22 @@ class Analyzer():
                   .format(i[1], i[0], total, percent))
         conn.close()
 
+    # Analyze emails in adopted
+    def analyze_source_adopted(self):
+        conn = sqlite3.connect(ADOPT_DB)
+        cursor = conn.cursor()
+        
+        total = cursor.execute("""SELECT COUNT(*) FROM User INNER JOIN Adopt 
+                                ON User.object_id == Adopt.object_id""").fetchone()[0]
+        for i in cursor.execute(""" SELECT creation_source, COUNT(*) FROM User INNER JOIN Adopt 
+                                ON User.object_id == Adopt.object_id
+                                GROUP BY creation_source
+                                ORDER BY COUNT(*) DESC LIMIT 7"""):
+            percent = i[1] / total * 100
+            print("{0} {1} users are in the total {2} adopted group. Percent: {3}%"
+                  .format(i[1], i[0], total, percent))
+        conn.close()
+
 def copy_db(src, dest):
     conn1 = sqlite3.connect(src)
     conn2 = sqlite3.connect(dest)
@@ -356,6 +372,8 @@ def main():
     a.analyze_email_adopted()
     print()
     a.analyze_email_signin()
+    print()
+    a.analyze_source_adopted()
     
 if __name__ == "__main__":
     main()   
